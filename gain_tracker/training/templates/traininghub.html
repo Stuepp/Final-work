@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body style="background-color: #2B3035;">
+    {% include 'header.html' %}
+    <h1 class="text-light text-center">{{trainingName}}</h1>
+    <hr style="color: white;"/>
+    <!--3 cols de cards de Exercises, cada card é equivalente a um Exercise, contendo suas info-->
+    {% include 'album.html' %}
+</body>
+</html>
