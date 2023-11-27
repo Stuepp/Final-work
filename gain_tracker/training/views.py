@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from .forms import AddExercise
+from .forms import AddExercise, AddTraining, AddAvaliation
 import training.models as models
 from django.views.generic.edit import FormView
 from django.urls import reverse, reverse_lazy
@@ -35,3 +35,21 @@ class SaveNewExercise(FormView):
         context['pagetitle'] = 'Gain Tracker'
         context['title'] = 'Gain Tracker'
         return context
+
+class SaveNewTraining(FormView):
+    template_name = 'cadastroSimples.html'
+    form_class = AddTraining
+    success_url = reverse_lazy('newtraining')
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+    
+class SaveNewAvaliation(FormView):
+    template_name = 'cadastroSimples.html'
+    form_class = AddAvaliation
+    success_url = reverse_lazy('newtraining')
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)

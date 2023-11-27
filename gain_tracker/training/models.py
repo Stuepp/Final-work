@@ -10,3 +10,9 @@ class Exercise(models.Model):
 class Training(models.Model):
     name = models.CharField(max_length=255)
     exercises = models.ManyToManyField(Exercise)
+
+class Avaliation(models.Model):
+    height = models.FloatField()
+    weight = models.FloatField()
+    fat_count = models.FloatField()
+    date = models.DateField()

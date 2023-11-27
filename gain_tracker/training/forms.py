@@ -16,7 +16,18 @@ class AddExercise(forms.ModelForm):
 class AddTraining(forms.ModelForm):
     class Meta:
         model = models.Training
-        fields = ('name', 'exercises')
+        fields = ('name',)
         widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
+        }
 
+class AddAvaliation(forms.ModelForm):
+    class Meta:
+        model = models.Avaliation
+        fields = ('height', 'weight', 'fat_count', 'date')
+        widgets = {
+            'height': forms.NumberInput(attrs={'class': 'form-control', 'required': True,  'min': 0}),
+            'weight': forms.NumberInput(attrs={'class': 'form-control', 'required': True,  'min': 0}),
+            'fat_count': forms.NumberInput(attrs={'class': 'form-control', 'required': True,  'min': 0}),
+            'date': forms.DateInput(attrs={'class': 'form-control', 'required': True, 'type': 'date'}),
         }
