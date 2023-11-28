@@ -6,6 +6,14 @@ import training.models as models
 from django.views.generic.edit import FormView
 from django.urls import reverse, reverse_lazy
 
+def home(request):
+    template = loader.get_template('home.html')
+    context = {
+
+    }
+    return HttpResponse(template.render(context))
+
+
 def training(request):
     template = loader.get_template('traininghub.html')
     # get training
@@ -19,7 +27,6 @@ def training(request):
         'exerciseName': 'Agachamento',
     }
     return HttpResponse(template.render(context))
-
 
 class SaveNewExercise(FormView):
     template_name = 'cadastroSimples.html'

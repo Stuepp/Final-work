@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1 class="text-light text-center">Welcome user name</h1>
+    <hr style="color: white;">
+    <div class="album py-5">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <!--\{\% for x in treinos %\}\-->
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="https://www.webrun.com.br/wp-content/uploads/2017/06/AdobeStock_288854123.jpeg" alt="Flowers in Chania" class="card-img-top"/>
+                        <div class="card-body">
+                            <h5 class="card-title"></h5>
+                            <p class="card-text"></p>
+                            <div class="d-grid gap-2">
+                                <a href="{% url 'training' %}" class="btn btn-primary">Treino X</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--\{\% endfor %\}\-->
+                <!--\{\% for x in avaliacoes %\}\-->
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="https://blog.sanny.com.br/wp-content/uploads/2021/08/como-fazer-avaliacao-fisica.jpg" alt="Flowers in Chania" class="card-img-top"/>
+                        <div class="card-body">
+                            <h5 class="card-title"></h5>
+                            <p class="card-text"></p>
+                            <div class="d-grid gap-2">
+                                <a href="#" class="btn btn-primary">Avaliation X</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--\{\% endfor %\}\-->
+            </div>
+        </div>
+    </div>
+{% endblock %}
