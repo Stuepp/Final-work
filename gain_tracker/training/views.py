@@ -60,3 +60,13 @@ class SaveNewAvaliation(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+    
+    
+class SaveNewHistory(FormView):
+    template_name = 'cadastroSimples.html'
+    form_class = AddHistory
+    success_url = reverse_lazy('newavaliation')
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)

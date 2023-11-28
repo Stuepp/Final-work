@@ -31,3 +31,16 @@ class AddAvaliation(forms.ModelForm):
             'fat_count': forms.NumberInput(attrs={'class': 'form-control', 'required': True,  'min': 0}),
             'date': forms.DateInput(attrs={'class': 'form-control', 'required': True, 'type': 'date'}),
         }
+
+class AddHistory(forms.ModelForm):
+    class Meta:
+        model = models.ExerciseHistory
+        fields = ('nro_series', 'nro_reps', 'weight', 'date','exercise_id')
+        widgets = {
+            'nro_series': forms.NumberInput(attrs={'class': 'form-control', 'required': True,  'min': 0}),
+            'nro_reps': forms.NumberInput(attrs={'class': 'form-control', 'required': True,  'min': 0}),
+            'weight': forms.NumberInput(attrs={'class': 'form-control', 'required': True,  'min': 0}),
+            'date': forms.DateInput(attrs={'class': 'form-control', 'required': True, 'type': 'date'}),
+            'exercise_id': forms.DateInput(attrs={'class': 'form-control', 'required': True, 'type': 'date'}),
+        }
+
