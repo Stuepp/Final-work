@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from .forms import AddExercise, AddTraining, AddAvaliation
+from .forms import AddExercise, AddTraining, AddAvaliation,AddHistory
 import training.models as models
 from django.views.generic.edit import FormView
 from django.urls import reverse, reverse_lazy
