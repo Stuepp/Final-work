@@ -24,7 +24,7 @@ def training(request):
 class SaveNewExercise(FormView):
     template_name = 'cadastroSimples.html'
     form_class = AddExercise
-    succes_url = reverse_lazy('newexercise')
+    success_url = reverse_lazy('newexercise')
     
     def form_valid(self, form):
         form.save()
@@ -48,7 +48,7 @@ class SaveNewTraining(FormView):
 class SaveNewAvaliation(FormView):
     template_name = 'cadastroSimples.html'
     form_class = AddAvaliation
-    success_url = reverse_lazy('newtraining')
+    success_url = reverse_lazy('newavaliation')
 
     def form_valid(self, form):
         form.save()
