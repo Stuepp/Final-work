@@ -1,15 +1,18 @@
 <div class="album py-5 bg-body-tertiary">
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            <!--\{\% for x in exercises %\}\-->
+            {% for x in exercises %}
             <div class="col">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title">{{exerciseName}}</h5>
-                        <p class="card-text">{{cardTextContent}}</p>
+                        <h5 class="card-title">{{x.name}}</h5>
+                        <p class="card-text">Number of series aimed: {{x.number_of_series_aimed}}</p>
+                        <p class="card-text">Number of reps aimed: {{x.number_of_reps_aimed}}</p>
+                        <p class="card-text">Weight aimed: {{x.weight_aimed}}</p>
+                        <a href=""><button class="btn btn-primary d-block my-2 position-relative start-50 translate-middle-x">Add Today's registry</button></a>
+                        <a href=""><button class="btn btn-primary d-block my-2 position-relative start-50 translate-middle-x">Check history</button></a>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <!--add tags-->
                                 <span class="badge bg-primary">{{workMuscle}}</span>
                             </div>
                             <small class="text-body-secondary">{{cardSecondaryTextContent}}</small>
@@ -17,7 +20,7 @@
                     </div>
                 </div>
             </div>
-            <!--\{\% endfor %\}\-->
+            {% endfor %}
 
             <div class="col">
                 <div class="card shadow-sm">
@@ -25,6 +28,8 @@
                         <!-- Make both text and bt stay on the middle -->
                         <h5 class="card-title d-flex justify-content-center">Add new exercise</h5>
                         <a href="{% url 'newexercise' %}"><button class="btn btn-primary position-relative start-50 translate-middle-x">+</button></a>
+                        <h5 class="card-title d-flex justify-content-center">Add new existing exercise</h5>
+                        <a href=""><button class="btn btn-primary position-relative start-50 translate-middle-x">+</button></a>
                     </div>
                 </div>
             </div>

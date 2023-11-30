@@ -5,34 +5,57 @@
     <div class="album py-5">
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                <!--\{\% for x in treinos %\}\-->
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <img src="https://www.webrun.com.br/wp-content/uploads/2017/06/AdobeStock_288854123.jpeg" alt="Flowers in Chania" class="card-img-top"/>
-                        <div class="card-body">
-                            <h5 class="card-title"></h5>
-                            <p class="card-text"></p>
-                            <div class="d-grid gap-2">
-                                <a href="{% url 'training' %}" class="btn btn-primary">Treino X</a>
+                <form action="training/" method="post" id="trainingForm">
+                    {% csrf_token %}
+                    {% for x in treinos %}
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img src="https://www.webrun.com.br/wp-content/uploads/2017/06/AdobeStock_288854123.jpeg" alt="Flowers in Chania" class="card-img-top"/>
+                            <div class="card-body">
+                                <h5 class="card-title"></h5>
+                                <p class="card-text"></p>
+                                <div class="d-grid gap-2">                                    
+                                    <a href="{% url 'training' %}" class="btn btn-primary">Treino X</a>
+                                    <button class="btn btn-primary" type="submit" name="sala" value="{{x.id}}" form="salaForm">{{x.nome}}</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!--\{\% endfor %\}\-->
-                <!--\{\% for x in avaliacoes %\}\-->
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <img src="https://blog.sanny.com.br/wp-content/uploads/2021/08/como-fazer-avaliacao-fisica.jpg" alt="Flowers in Chania" class="card-img-top"/>
-                        <div class="card-body">
-                            <h5 class="card-title"></h5>
-                            <p class="card-text"></p>
-                            <div class="d-grid gap-2">
-                                <a href="{% url 'avaliation' %}" class="btn btn-primary">Avaliation X</a>
+                    {% endfor %}
+                </form>
+                <form action="training/" method="post" id="trainingForm">
+                    {% csrf_token %}
+                    {% for x in avaliacoes %}
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                <img src="https://blog.sanny.com.br/wp-content/uploads/2021/08/como-fazer-avaliacao-fisica.jpg" alt="Flowers in Chania" class="card-img-top"/>
+                                <div class="card-body">
+                                    <h5 class="card-title"></h5>
+                                    <p class="card-text"></p>
+                                    <div class="d-grid gap-2">
+                                        <a href="{% url 'avaliation' %}" class="btn btn-primary">Avaliation X</a>
+                                        <button class="btn btn-primary" type="submit" name="sala" value="{{x.id}}" form="salaForm">X{{x.nome}}</button>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                    {% endfor %}
+                </form>
+
+                <div class="col">
+                    <div class="card shadow-sm my-5">
+                        <div class="card-body">
+                            <h5 class="card-title d-flex justify-content-center">Add new training</h5>
+                            <a href="{% url 'newtraining' %}"><button class="btn btn-primary position-relative start-50 translate-middle-x">+</button></a>
+                        </div>
+                    </div>
+                    <div class="card shadow-sm my-5">
+                        <div class="card-body">
+                            <h5 class="card-title d-flex justify-content-center">Add new avaliation</h5>
+                            <a href="{% url 'newavaliation' %}"><button class="btn btn-primary position-relative start-50 translate-middle-x">+</button></a>
                         </div>
                     </div>
                 </div>
-                <!--\{\% endfor %\}\-->
             </div>
         </div>
     </div>

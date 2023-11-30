@@ -3,35 +3,43 @@ from django.http import HttpResponse
 from django.template import loader
 from .forms import AddExercise, AddTraining, AddAvaliation,AddHistory
 import training.models as models
+from .models import Avaliation, Training
 from django.views.generic.edit import FormView
 from django.urls import reverse, reverse_lazy
+from django.views import View
 
 
-def home(request):
-    template = loader.get_template('home.html')
+class Home(View):
+    template_name = 'home.html'
     context = {
-
+        'avaliacoes': Avaliation.objects.all().values(),
+        'treinos': Training.objects.all().values(),
     }
-    return HttpResponse(template.render(context))
+    def get(self, request, *args, **kwargs):
+        template = loader.get_template(self.template_name)
+        return HttpResponse(template.render(self.context, request))
 
 def avaliation(request):
+    #avaliation = models.Avaliation.objects.get( id=request.POST.get('avaliation', None) )
     template = loader.get_template('avaliation.html')
     context = {
-
+        #'height': avaliation.height,
+        #'weight': avaliation.weight,
+        #'fat_count': avaliation.fat_count,
     }
     return HttpResponse(template.render(context))
 
 def training(request):
+    #training = models.Training.objects.get( id=request.POST.get('training', None) )
+    training = models.Training.objects.get(id=2)
+    exercises = training.exercises.all().values()
     template = loader.get_template('traininghub.html')
-    # get training
-    #training = models.Training.first()
     context = {
         'title': 'Gain Tracker',
-        'trainingName': 'Leg',
-        'cardTextContent': 'O agachamento é um exercício físico de força em que o praticante abaixa os quadris a partir de uma posição em pé e depois se levanta.',
+        'trainingName': training.name,
         'cardSecondaryTextContent': 'Something',
         'workMuscle': 'Posterior',
-        'exerciseName': 'Agachamento',
+        'exercises': exercises
     }
     return HttpResponse(template.render(context))
 
