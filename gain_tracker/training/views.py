@@ -110,3 +110,20 @@ class EditExercise(FormView):
             return redirect(reverse_lazy('home'), id=id)  
         return render(request, self.template_name, {'form': form})
     
+    
+class EditAvaliation(FormView):  
+    template_name = 'editbase.html'  # Substitua pelo seu template
+
+    def get(self, request, id):
+        objeto = get_object_or_404(models.Avaliation, id=id)
+        form = AddAvaliation(instance=objeto)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, id):
+        objeto = get_object_or_404(models.Avaliation, id=id)
+        form = AddAvaliation(request.POST, instance=objeto)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse_lazy('home'), id=id)  
+        return render(request, self.template_name, {'form': form})
+    
