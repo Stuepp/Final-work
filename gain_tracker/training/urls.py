@@ -8,5 +8,6 @@ urlpatterns = [
     path('newtraining/', views.SaveNewTraining.as_view(), name='newtraining'),
     path('newavaliation/', views.SaveNewAvaliation.as_view(), name='newavaliation'),
     path('newhistory/', views.SaveNewHistory.as_view(), name='newhistory'),
+    path('edittraining/<int:id>/', views.EditTraining.as_view(), name='edittraining'),
 
 ]

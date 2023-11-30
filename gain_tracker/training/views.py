@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404,redirect
 from django.http import HttpResponse
 from django.template import loader
 from .forms import AddExercise, AddTraining, AddAvaliation,AddHistory
 import training.models as models
 from django.views.generic.edit import FormView
 from django.urls import reverse, reverse_lazy
+
 
 def home(request):
     template = loader.get_template('home.html')
@@ -70,3 +71,20 @@ class SaveNewHistory(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+class EditTraining(FormView):  
+    template_name = 'editbase.html'  # Substitua pelo seu template
+
+    def get(self, request, id):
+        objeto = get_object_or_404(models.Training, id=id)
+        form = AddTraining(instance=objeto)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, id):
+        objeto = get_object_or_404(models.Training, id=id)
+        form = AddTraining(request.POST, instance=objeto)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse_lazy('home'), id=id)  
+        return render(request, self.template_name, {'form': form})
+    
