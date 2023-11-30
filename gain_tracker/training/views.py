@@ -88,3 +88,19 @@ class EditTraining(FormView):
             return redirect(reverse_lazy('home'), id=id)  
         return render(request, self.template_name, {'form': form})
     
+class EditExercise(FormView):  
+    template_name = 'editbase.html'  # Substitua pelo seu template
+
+    def get(self, request, id):
+        objeto = get_object_or_404(models.Exercise, id=id)
+        form = AddExercise(instance=objeto)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, id):
+        objeto = get_object_or_404(models.Exercise, id=id)
+        form = AddExercise(request.POST, instance=objeto)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse_lazy('home'), id=id)  
+        return render(request, self.template_name, {'form': form})
+    
