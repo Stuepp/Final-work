@@ -11,27 +11,28 @@ from django.views import View
 
 class Home(View):
     template_name = 'home.html'
+    t = models.Training.objects.all().values()
+    t2 = models.Training.objects.get(id=2)
     context = {
-        'avaliacoes': Avaliation.objects.all().values(),
-        'treinos': Training.objects.all().values(),
+        'avaliacoes': models.Avaliation.objects.all().values(),
+        'treinos': t,
     }
     def get(self, request, *args, **kwargs):
         template = loader.get_template(self.template_name)
         return HttpResponse(template.render(self.context, request))
 
 def avaliation(request):
-    #avaliation = models.Avaliation.objects.get( id=request.POST.get('avaliation', None) )
+    avaliation = models.Avaliation.objects.get( id=request.POST.get('avaliation', None) )
     template = loader.get_template('avaliation.html')
     context = {
-        #'height': avaliation.height,
-        #'weight': avaliation.weight,
-        #'fat_count': avaliation.fat_count,
+        'height': avaliation.height,
+        'weight': avaliation.weight,
+        'fat_count': avaliation.fat_count,
     }
     return HttpResponse(template.render(context))
 
 def training(request):
-    #training = models.Training.objects.get( id=request.POST.get('training', None) )
-    training = models.Training.objects.get(id=2)
+    training = models.Training.objects.get( id=request.POST.get('training', None) )
     exercises = training.exercises.all().values()
     template = loader.get_template('traininghub.html')
     context = {
