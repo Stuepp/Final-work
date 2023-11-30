@@ -28,22 +28,22 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script>
-        const xValues = [100,200,300,400,500,600,700,800,900,1000]; // tempo
+        const xValues = ['{{date}}',200,300,400,500,600,700,800,900,1000]; // tempo
 
         new Chart("myChart", {
             type: "line",
             data: {
                 labels: xValues,
                 datasets: [{ // valores do historico
-                    data: [860,1140,1060,1060,1070,1110,1330,2210,7830,2478],
+                    data: ['{{height}}',1140,1060,1060,1070,1110,1330,2210,7830,2478], // Height
                     borderColor: "#F8312F",
                     fill: false
                 }, { 
-                    data: [1600,1700,1700,1900,2000,2700,4000,5000,6000,7000],
+                    data: ['{{weight}}',1700,1700,1900,2000,2700,4000,5000,6000,7000], // Weight
                     borderColor: "#00D26A",
                     fill: false
                 }, { 
-                    data: [300,700,2000,5000,6000,4000,2000,1000,200,100],
+                    data: ['{{fat_count}}',700,2000,5000,6000,4000,2000,1000,200,100], // fat count
                     borderColor: "#00A6ED",
                     fill: false
                 }]

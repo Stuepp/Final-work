@@ -28,6 +28,7 @@ def avaliation(request):
         'height': avaliation.height,
         'weight': avaliation.weight,
         'fat_count': avaliation.fat_count,
+        'date': avaliation.date
     }
     return HttpResponse(template.render(context))
 
