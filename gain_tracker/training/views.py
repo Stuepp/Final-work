@@ -13,6 +13,12 @@ def home(request):
     }
     return HttpResponse(template.render(context))
 
+def avaliation(request):
+    template = loader.get_template('avaliation.html')
+    context = {
+
+    }
+    return HttpResponse(template.render(context))
 
 def training(request):
     template = loader.get_template('traininghub.html')
