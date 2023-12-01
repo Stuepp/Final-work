@@ -12,7 +12,6 @@ from django.views import View
 class Home(View):
     template_name = 'home.html'
     t = models.Training.objects.all().values()
-    t2 = models.Training.objects.get(id=2)
     context = {
         'avaliacoes': models.Avaliation.objects.all().values(),
         'treinos': t,
@@ -137,3 +136,9 @@ class EditAvaliation(FormView):
             return redirect(reverse_lazy('home'), id=id)  
         return render(request, self.template_name, {'form': form})
     
+class DeleteTraining(View):
+
+    def deletar_objeto(request, objeto_id):
+        objeto = Training.objects.get(id=objeto_id)
+
+        return render(request, 'deletar_objeto.html', {'objeto': objeto})
