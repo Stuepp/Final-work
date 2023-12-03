@@ -8,7 +8,7 @@
                 <form action="training/" method="post" id="trainingForm">
                     {% csrf_token %}
                     {% for x in treinos %}
-                    <div class="col">
+                    <div class="col my-2">
                         <div class="card shadow-sm">
                             <img src="https://www.webrun.com.br/wp-content/uploads/2017/06/AdobeStock_288854123.jpeg" alt="Flowers in Chania" class="card-img-top"/>
                             <div class="card-body">
@@ -25,7 +25,7 @@
                 <form action="avaliation/" method="post" id="avaliationForm">
                     {% csrf_token %}
                     {% for y in avaliacoes %}
-                        <div class="col">
+                        <div class="col my-2">
                             <div class="card shadow-sm">
                                 <img src="https://blog.sanny.com.br/wp-content/uploads/2021/08/como-fazer-avaliacao-fisica.jpg" alt="Flowers in Chania" class="card-img-top"/>
                                 <div class="card-body">

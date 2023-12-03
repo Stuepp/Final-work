@@ -1,12 +1,13 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from django.http import HttpResponse
 from django.template import loader
-from .forms import AddExercise, AddTraining, AddAvaliation,AddHistory
+from .forms import AddExercise, AddTraining, AddAvaliation,AddHistory, UpdateTraining
 import training.models as models
-from .models import Avaliation, Training
 from django.views.generic.edit import FormView
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.views import View
+from django.views.generic import UpdateView
+from django.template.context_processors import csrf
 
 
 class Home(View):
@@ -28,7 +29,8 @@ def avaliation(request):
         'height': avaliation.height,
         'weight': avaliation.weight,
         'fat_count': avaliation.fat_count,
-        'date': avaliation.date
+        'date': avaliation.date,
+        'id': avaliation.id,
     }
     return HttpResponse(template.render(context))
 
@@ -38,12 +40,51 @@ def training(request):
     template = loader.get_template('traininghub.html')
     context = {
         'title': 'Gain Tracker',
+        'training': training,
         'trainingName': training.name,
-        'cardSecondaryTextContent': 'Something',
         'workMuscle': 'Posterior',
         'exercises': exercises
     }
+    context.update(csrf(request))
     return HttpResponse(template.render(context))
+
+def exercisehistory(request):
+    exercise_id = request.POST.get('history', None)
+    exercise = get_object_or_404(models.Exercise, id=exercise_id)
+    exs = models.ExerciseHistory.objects.filter(exercise_id=exercise)
+    series = []
+    reps = []
+    weights = []
+    dates = []
+    for ex in exs:
+        series.append(ex.nro_series)
+        reps.append(ex.nro_reps)
+        weights.append(ex.weight)
+        dates.append(ex.date)
+    template = loader.get_template('exechistory.html')
+    context = {
+        'name': ex.exercise_id,
+        'nro_series': series,
+        'nro_reps': reps,
+        'weights': weights,
+        'dates': dates,
+    }
+    return HttpResponse(template.render(context))
+
+class UpdateTrainingView(UpdateView):
+    model = models.Training
+    template_name = 'update.html'
+    form_class = UpdateTraining
+
+class UpdateExerciseView(UpdateView):
+    model = models.Exercise
+    template_name = 'update.html'
+    form_class = AddExercise
+
+class UpdateAvaliationView(UpdateView):
+    model = models.Avaliation
+    template_name = 'update.html'
+    form_class = AddAvaliation
 
 class SaveNewExercise(FormView):
     template_name = 'cadastroSimples.html'
@@ -56,6 +97,30 @@ class SaveNewExercise(FormView):
 
     def get_context_date(self, **kwargs):
         context = super(SaveNewExercise, self).get_context_data(**kwargs)
+        context['pagetitle'] = 'Gain Tracker'
+        context['title'] = 'Gain Tracker'
+        return context
+
+class SaveExerciseHistory(FormView):
+    template_name = 'cadastroSimples.html'
+    form_class = AddHistory
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        exercise_id = self.request.POST.get('adh', 1)
+        print("ESTOU AQUI")
+        print("Exercise ID from POST:", exercise_id)
+        exercise =  get_object_or_404(models.Exercise, id=exercise_id)
+        print("Exercise object:", exercise)
+        exercise_history = form.save(commit=False)
+        exercise_history.exercise_id = exercise
+        exercise_history.save()
+        #form.instance.exercise_id_id = exercise_id
+        #form.save()
+        return super().form_valid(form)
+
+    def get_context_date(self, **kwargs):
+        context = super(SaveExerciseHistory, self).get_context_data(**kwargs)
         context['pagetitle'] = 'Gain Tracker'
         context['title'] = 'Gain Tracker'
         return context
@@ -78,7 +143,6 @@ class SaveNewAvaliation(FormView):
         form.save()
         return super().form_valid(form)
     
-    
 class SaveNewHistory(FormView):
     template_name = 'cadastroSimples.html'
     form_class = AddHistory
@@ -88,6 +152,8 @@ class SaveNewHistory(FormView):
         form.save()
         return super().form_valid(form)
 
+
+"""
 class EditTraining(FormView):  
     template_name = 'editbase.html'  # Substitua pelo seu template
 
@@ -137,3 +203,4 @@ class EditAvaliation(FormView):
             return redirect(reverse_lazy('home'), id=id)  
         return render(request, self.template_name, {'form': form})
     
+"""

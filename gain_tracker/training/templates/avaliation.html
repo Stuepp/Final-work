@@ -1,19 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
     <h1 class="text-light text-center">AVALIAÇÃO DE COMPOSIÇÃO CORPORAL X</h1>
+    <h5 class="text-light text-center"><a href="{% url 'updateavaliation' id %}">(Edit)</a></h5>
     <hr style="color: white;">
     <table class="text-light table align-middle text-center">
         <tr>
             <td>Height</td>
-            <td>{{height}}</td>
+            <td>{{height}} m</td>
         </tr>
         <tr>
             <td>Weight</td>
-            <td>{{weight}}</td>
+            <td>{{weight}} kg</td>
         </tr>
         <tr>
             <td>Fat Count</td>
-            <td>{{fat_count}}</td>
+            <td>{{fat_count}} kg</td>
         </tr>
     </table>
     <h3 class="text-light text-center">Weight and Fat count history</h3>

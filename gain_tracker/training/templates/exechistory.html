@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="text-light text-center">{{name}} History</h3>
+    
+<canvas id="myChart" class="position-relative start-50 translate-middle-x" style="width:100%;max-width:600px; background-color: aliceblue;"></canvas>
+
+<div class="d-flex justify-content-center">
+    <p class="text-light text-center mx-2">🟥 -> nro_series</p>
+    <p class="text-light text-center mx-2">🟩 -> nro_reps</p>
+    <p class="text-light text-center mx-2">🟦 -> weight</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script>
+    let series = [], reps = [], weights = [], dates = []
+    '{% for s in nro_series %}'
+        series.push('{{s}}')
+    '{% endfor %}'
+    '{% for s in nro_reps %}'
+        reps.push('{{s}}')
+    '{% endfor %}'
+    '{% for s in weights %}'
+        weights.push('{{s}}')
+    '{% endfor %}'
+    '{% for s in dates %}'
+        dates.push('{{s}}')
+    '{% endfor %}'
+
+    const xValues = dates // tempo
+
+    new Chart("myChart", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{ // valores do historico
+                data: series,
+                borderColor: "#F8312F", // red
+                fill: false
+            }, { 
+                data: reps,
+                borderColor: "#00D26A", // green
+                fill: false
+            }, { 
+                data: weights,
+                borderColor: "#00A6ED", // blue
+                fill: false
+            }]
+        },
+        options: {
+            legend: {display: false}
+        }
+    });
+</script>
+{% endblock %}

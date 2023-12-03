@@ -5,31 +5,35 @@
             <div class="col">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title">{{x.name}}</h5>
+                        <h5 class="card-title text-center">{{x.name}}</h5>
                         <p class="card-text">Number of series aimed: {{x.number_of_series_aimed}}</p>
                         <p class="card-text">Number of reps aimed: {{x.number_of_reps_aimed}}</p>
                         <p class="card-text">Weight aimed: {{x.weight_aimed}}</p>
-                        <a href=""><button class="btn btn-primary d-block my-2 position-relative start-50 translate-middle-x">Add Today's registry</button></a>
-                        <a href=""><button class="btn btn-primary d-block my-2 position-relative start-50 translate-middle-x">Check history</button></a>
+                        <form action="newhistory/" method="post" id="addeh">
+                            {% csrf_token %}
+                            <input type="hidden" name="adh" value="{{ x.id }}">
+                            <button type="submit" class="btn btn-primary d-block my-2 position-relative start-50 translate-middle-x">Add Today's registry</button>
+                        </form>
+                        <!--fazer uma condição para caso não tenha histórico não aparecer o botão-->
+                        <form action="history/" method="post" id="eh">
+                            {% csrf_token %}
+                            <button type="submit" name="history" value="{{x.id}}" form="eh" class="btn btn-primary d-block my-2 position-relative start-50 translate-middle-x">Check history</button>
+                        </form>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <span class="badge bg-primary">{{workMuscle}}</span>
                             </div>
-                            <small class="text-body-secondary">{{cardSecondaryTextContent}}</small>
+                            <small class="text-body-secondary"><a href="{% url 'updateexercise' x.id %}">(Edit)</a></small>
                         </div>
                     </div>
                 </div>
             </div>
             {% endfor %}
-
             <div class="col">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <!-- Make both text and bt stay on the middle -->
-                        <h5 class="card-title d-flex justify-content-center">Add new exercise</h5>
-                        <a href="{% url 'newexercise' %}"><button class="btn btn-primary position-relative start-50 translate-middle-x">+</button></a>
-                        <h5 class="card-title d-flex justify-content-center">Add new existing exercise</h5>
-                        <a href=""><button class="btn btn-primary position-relative start-50 translate-middle-x">+</button></a>
+                        <h5 class="card-title d-flex justify-content-center text-center">Edit Training and add new existing exercise</h5><!--update training-->
+                        <a href="{% url 'updatetraining' training.id %}"><button class="btn btn-primary position-relative start-50 translate-middle-x">+</button></a>
                     </div>
                 </div>
             </div>
