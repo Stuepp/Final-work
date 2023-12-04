@@ -9,11 +9,11 @@
                         <p class="card-text">Number of series aimed: {{x.number_of_series_aimed}}</p>
                         <p class="card-text">Number of reps aimed: {{x.number_of_reps_aimed}}</p>
                         <p class="card-text">Weight aimed: {{x.weight_aimed}}</p>
-                        <form action="newhistory/" method="post" id="addeh">
+                        <!--<form action="newhistory/{{x.id}}/" method="post" id="addeh">-->
                             {% csrf_token %}
-                            <input type="hidden" name="adh" value="{{ x.id }}">
-                            <button type="submit" class="btn btn-primary d-block my-2 position-relative start-50 translate-middle-x">Add Today's registry</button>
-                        </form>
+                            <input type="hidden" name="adh" value="{{x.id}}" />
+                            <a href="{% url 'newhistory' x.id %}"><button type="submit" class="btn btn-primary d-block my-2 position-relative start-50 translate-middle-x">Add Today's registry</button></a>
+                        <!--</form>-->
                         <!--fazer uma condição para caso não tenha histórico não aparecer o botão-->
                         <form action="history/" method="post" id="eh">
                             {% csrf_token %}

@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import UpdateView
 from django.template.context_processors import csrf
+from django import forms
 
 
 class Home(View):
@@ -100,29 +101,20 @@ class SaveNewExercise(FormView):
         context['title'] = 'Gain Tracker'
         return context
 
-class SaveExerciseHistory(FormView):
+def save_new_history(request, fk):  # Certifique-se de incluir 'fk' como um parâmetro na função
+    if request.method == 'POST':
+        form = AddHistory(request.POST)
+        if form.is_valid():
+            exercise_history = form.save(commit=False)
+            exercise = models.Exercise.objects.get(id = fk)
+            exercise_history.exercise_id = exercise  # Use o valor 'fk' da URL
+            exercise_history.save()
+            return redirect('home')  # Redireciona para a URL 'newhistory' após o sucesso
+    else:
+        form = AddHistory()
+
     template_name = 'cadastroSimples.html'
-    form_class = AddHistory
-    success_url = reverse_lazy('home')
-
-    def form_valid(self, form):
-        exercise_id = self.request.POST.get('adh', 1)
-        print("ESTOU AQUI")
-        print("Exercise ID from POST:", exercise_id)
-        exercise =  get_object_or_404(models.Exercise, id=exercise_id)
-        print("Exercise object:", exercise)
-        exercise_history = form.save(commit=False)
-        exercise_history.exercise_id = exercise
-        exercise_history.save()
-        #form.instance.exercise_id_id = exercise_id
-        #form.save()
-        return super().form_valid(form)
-
-    def get_context_date(self, **kwargs):
-        context = super(SaveExerciseHistory, self).get_context_data(**kwargs)
-        context['pagetitle'] = 'Gain Tracker'
-        context['title'] = 'Gain Tracker'
-        return context
+    return render(request, template_name, {'form': form})
 
 class SaveNewTraining(FormView):
     template_name = 'cadastroSimples.html'
