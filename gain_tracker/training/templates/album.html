@@ -10,20 +10,27 @@
                         <p class="card-text">Number of reps aimed: {{x.number_of_reps_aimed}}</p>
                         <p class="card-text">Weight aimed: {{x.weight_aimed}}</p>
                         <!--<form action="newhistory/{{x.id}}/" method="post" id="addeh">-->
+                            
                             {% csrf_token %}
                             <input type="hidden" name="adh" value="{{x.id}}" />
                             <a href="{% url 'newhistory' x.id %}"><button type="submit" class="btn btn-primary d-block my-2 position-relative start-50 translate-middle-x">Add Today's registry</button></a>
                         <!--</form>-->
                         <!--fazer uma condição para caso não tenha histórico não aparecer o botão-->
+
+                        {% if hashistory %}
+
                         <form action="history/" method="post" id="eh">
                             {% csrf_token %}
                             <button type="submit" name="history" value="{{x.id}}" form="eh" class="btn btn-primary d-block my-2 position-relative start-50 translate-middle-x">Check history</button>
                         </form>
+                        {% endif %}
+
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <span class="badge bg-primary">{{workMuscle}}</span>
                             </div>
                             <small class="text-body-secondary"><a href="{% url 'updateexercise' x.id %}">(Edit)</a></small>
+                            <small class="text-body-secondary"><a href="{% url 'deleteexercise' x.id %}">(Delete)</a></small>
                         </div>
                     </div>
                 </div>

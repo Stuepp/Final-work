@@ -10,6 +10,18 @@
     <p class="text-light text-center mx-2">🟦 -> weight</p>
 </div>
 
+
+{% for date,id in history %}
+<div class="d-flex justify-content-center">
+    
+    <div class="btn-group">
+        <h1 class="badge bg-primary" >treino - {{date}} </span>
+        </div>
+        <a href="{% url 'updatehistoryexercise' id %}">(Edit)</a>
+        <a href="{% url 'deletehistoryexercise' id %}">(Delete)</a>
+    <br>
+</div>
+{% endfor %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <script>
     let series = [], reps = [], weights = [], dates = []

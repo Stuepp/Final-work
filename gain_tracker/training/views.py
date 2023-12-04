@@ -6,7 +6,7 @@ import training.models as models
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, DeleteView
 from django.template.context_processors import csrf
 from django import forms
 
@@ -35,7 +35,8 @@ def avaliation(request):
     return HttpResponse(template.render(context))
 
 def training(request):
-    training = models.Training.objects.get( id=request.POST.get('training', None) )
+    training = models.Training.objects.get( id=request.POST.get('training') )
+    hashistory = models.ExerciseHistory.objects.filter(exercise_id=training.exercises.first())
     exercises = training.exercises.all().values()
     template = loader.get_template('traininghub.html')
     context = {
@@ -43,7 +44,9 @@ def training(request):
         'training': training,
         'trainingName': training.name,
         'workMuscle': 'Posterior',
-        'exercises': exercises
+        'exercises': exercises,
+        'hashistory': hashistory.exists(),
+        'id':training.id
     }
     context.update(csrf(request))
     return HttpResponse(template.render(context))
@@ -56,11 +59,13 @@ def exercisehistory(request):
     reps = []
     weights = []
     dates = []
+    exs_id = []
     for ex in exs:
         series.append(ex.nro_series)
         reps.append(ex.nro_reps)
         weights.append(ex.weight)
         dates.append(ex.date)
+        exs_id.append(ex.id)
     template = loader.get_template('exechistory.html')
     context = {
         'name': ex.exercise_id,
@@ -68,6 +73,7 @@ def exercisehistory(request):
         'nro_reps': reps,
         'weights': weights,
         'dates': dates,
+        'history': zip(dates,exs_id),
     }
     return HttpResponse(template.render(context))
 
@@ -81,10 +87,35 @@ class UpdateExerciseView(UpdateView):
     template_name = 'update.html'
     form_class = AddExercise
 
+class UpdateExerciseHistoryView(UpdateView):
+    model = models.ExerciseHistory
+    template_name = 'update.html'
+    form_class = AddHistory
+
 class UpdateAvaliationView(UpdateView):
     model = models.Avaliation
     template_name = 'update.html'
     form_class = AddAvaliation
+
+class DeleteTrainingView(DeleteView):
+    model = models.Training
+    template_name = 'delete.html'
+    success_url = reverse_lazy('home')
+
+class DeleteExerciseHistoryView(DeleteView):
+    model = models.ExerciseHistory
+    template_name = 'delete.html'
+    success_url = reverse_lazy('home')
+
+class DeleteAvaliationView(DeleteView):
+    model = models.Avaliation
+    template_name = 'delete.html'
+    success_url = reverse_lazy('home')
+
+class DeleteExerciseView(DeleteView):
+    model = models.Exercise
+    template_name = 'delete.html'
+    success_url = reverse_lazy('home')
 
 class SaveNewExercise(FormView):
     template_name = 'cadastroSimples.html'
@@ -198,5 +229,4 @@ class DeleteTraining(View):
 
     def deletar_objeto(request, objeto_id):
         objeto = models.Training.objects.get(id=objeto_id)
-
-        return render(request, 'deletar_objeto.html', {'objeto': objeto})
+        objeto.delete()

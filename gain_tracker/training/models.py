@@ -47,3 +47,5 @@ class ExerciseHistory(models.Model):
     nro_reps = models.IntegerField()
     exercise_id = models.ForeignKey(Exercise,on_delete=models.CASCADE)
     weight = models.FloatField()
+    def get_absolute_url(self):
+        return reverse_lazy('home')
